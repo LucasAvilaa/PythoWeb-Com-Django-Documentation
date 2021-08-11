@@ -1,6 +1,6 @@
 import environ
 
-from MeuPrimeiroProjeto.settings.base import *
+from settings.base import *
 
 env = environ.Env()
 

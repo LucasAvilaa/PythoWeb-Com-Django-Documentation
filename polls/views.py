@@ -1,23 +1,35 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, response
-from .models import Question
+from django.urls import reverse
+from .models import Choice, Question
+from django.views import generic 
 
-# def index(request):
-#     return HttpResponse("Hello, world. You're at the polls index.")
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
 
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question': question})
+    def get_queryset(self):
+        return Question.objects.order_by('-pub_date')[:5]
 
-def results(request, question_id):
-    response = "Você está olhando o resultado da questão %s."
-    return HttpResponse( response % question_id )
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
 
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+    
 def vote(request, question_id):
-    return HttpResponse("Você está votando na questão %s." % question_id)
+    question = get_object_or_404(Question, pk=question_id)
 
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    # template = loader.get_template('polls/index.html') # * Substituido pelo comando render na linha abaixo
-    context = {'latest_question_list': latest_question_list}
-    return render(request, 'polls/index.html', context)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'polls/detail.html',{
+            'question':question,
+            'error_message': "Você não selecionou uma opção."
+            })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        return response.HttpResponseRedirect(reverse('polls:result'), args=(question.id))

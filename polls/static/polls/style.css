@@ -1,0 +1,28 @@
+li a {
+    color: black;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+ul{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    list-style: upper-roman;
+    color: rgb(0, 0, 0);
+}
+
+a:hover{
+    text-decoration: underline; 
+    font-weight: 700;
+}
+
+body{
+    background: url("./images/fundo.jpg") no-repeat;
+}
+
+.principal{
+    height: auto;
+    width: 300px;
+    background-color: rgba(248, 248, 248, 0.7);
+    border-radius: 15px;
+}

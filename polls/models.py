@@ -15,11 +15,11 @@ class Question(models.Model):
     )
     dificuldade = models.CharField(max_length=1, choices=nivel, default='F')
      
-    @admin.display(
-        boolean=True,
-        ordering=['pub_date'],
-        description='Publicada recentemente?', 
-        )
+#     @admin.display(
+#         boolean=True,
+#         ordering=['pub_date'],
+#         description='Publicada recentemente?', 
+#         )
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now

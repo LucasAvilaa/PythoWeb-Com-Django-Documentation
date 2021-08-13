@@ -26,9 +26,11 @@ body{
 }
 
 .principal{
+    text-align: center;
     height: auto;
-    width: 300px;
+    width: 98%;
     background-color: rgba(248, 248, 248, 1);
     border-radius: 15px;
     padding: 15px;
+    margin: 0 auto;
 }

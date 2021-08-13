@@ -9,9 +9,10 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Nome', {'fields':['question_text']}),
+        (None, {'fields':['dificuldade']}, ),
         ('Data Publicada',{'fields':['pub_date']})
     ]
-    list_display = ('question_text','pub_date', 'was_published_recently')
+    list_display = ('question_text','pub_date', 'dificuldade','was_published_recently')
     inlines = [ChoiceInline]
     list_filter = ['pub_date']
     search_fields = ['question_text']

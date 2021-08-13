@@ -1,6 +1,19 @@
 from django.contrib import admin
-from django.contrib.admin.helpers import AdminField
+from django.contrib.admin.filters import ListFilter 
+from .models import Question,Choice
 
-from .models import Question
+class ChoiceInline(admin.TabularInline):
+    model = Choice
+    extra = 3
 
-admin.site.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Nome', {'fields':['question_text']}),
+        ('Data Publicada',{'fields':['pub_date']})
+    ]
+    list_display = ('question_text','pub_date', 'was_published_recently')
+    inlines = [ChoiceInline]
+    list_filter = ['pub_date']
+    search_fields = ['question_text']
+
+admin.site.register(Question, QuestionAdmin)
